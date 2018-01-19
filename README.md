@@ -1,9 +1,9 @@
 # kotlin-materials
 
 ## Links
-* [Getting started with android] (https://kotlinlang.org/docs/tutorials/kotlin-android.html)
-* [“Why you should totally switch to Kotlin”] (https://medium.com/@magnus.chatt/why-you-should-totally-switch-to-kotlin-c7bbde9e10d5)
-* [Coroutines “A first walk into Kotlin coroutines on Android” @lime_cl] (https://android.jlelse.eu/a-first-walk-into-kotlin-coroutines-on-android-fe4a6e25f46a)
+* [Getting started with android](https://kotlinlang.org/docs/tutorials/kotlin-android.html)
+* [“Why you should totally switch to Kotlin”](https://medium.com/@magnus.chatt/why-you-should-totally-switch-to-kotlin-c7bbde9e10d5)
+* [Coroutines “A first walk into Kotlin coroutines on Android” @lime_cl](https://android.jlelse.eu/a-first-walk-into-kotlin-coroutines-on-android-fe4a6e25f46a)
 
 ## Coroutine
 
