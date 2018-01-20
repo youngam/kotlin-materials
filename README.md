@@ -52,3 +52,35 @@ Produces the output:
  
 So, the coroutine that had inherited `context` of `runBlocking {...}` continues to execute in the `main` thread,
 while the unconfined one had resumed in the scheduler thread that [delay] function is using.
+
+### Concurrency and threads
+
+Each individual coroutine, just like a thread, is executed sequentially. It means that the following kind 
+of code is perfectly safe inside a coroutine:
+
+```kotlin
+launch(CommonPool) { // starts a coroutine
+    val m = mutableMapOf<String, String>()
+    val v1 = someAsyncTask1().await() // suspends on await
+    m["k1"] = v1 // modify map when resumed
+    val v2 = someAsyncTask2().await() // suspends on await
+    m["k2"] = v2 // modify map when resumed
+}
+```
+
+You can use all the regular single-threaded mutable structures inside the scope of a particular coroutine.
+However, sharing mutable state _between_ coroutines is potentially dangerous. If you use a coroutine builder
+that installs a dispatcher to resume all coroutines JS-style in the single event-dispatch thread, 
+like the `Swing` interceptor shown in [continuation interceptor](#continuation-interceptor) section,
+then you can safely work with all shared
+objects that are generally modified from this event-dispatch thread. 
+However, if you work in multi-threaded environment or otherwise share mutable state between
+coroutines running in different threads, then you have to use thread-safe (concurrent) data structures. 
+
+Coroutines are like threads, albeit they are more lightweight. You can have millions of coroutines running on 
+just a few threads. The running coroutine is always executed in some thread. However, a _suspended_ coroutine
+does not consume a thread and it is not bound to a thread in any way. The suspending function that resumes this
+coroutine decides which thread the coroutine is resumed on by invoking `Continuation.resume` on this thread 
+and coroutine's interceptor can override this decision and dispatch the coroutine's execution onto a different thread.
+
+
